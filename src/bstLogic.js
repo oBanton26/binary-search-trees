@@ -1,3 +1,16 @@
+export const prettyPrint = (node, prefix = '', isLeft = true) => {
+  if (node === null) {
+    return;
+  }
+  if (node.right !== null) {
+    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+  }
+  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+  if (node.left !== null) {
+    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+  }
+};
+
 class Node {
     constructor (data) {
         this.data = data;
@@ -9,6 +22,10 @@ class Node {
 export class Tree {
     constructor (array) {
         this.root = buildTree(array);
+    };
+
+    insert (value) {
+        return insertFunc(this.root, value);
     };
 };
 
@@ -39,15 +56,16 @@ function buildTree (array) {
     return root;
 };
 
-export const prettyPrint = (node, prefix = '', isLeft = true) => {
-  if (node === null) {
-    return;
-  }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-  }
-  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-  }
+function insertFunc (root, key) {
+    if (root === null) return new Node(key);
+
+    if (root.data === key) return root;
+
+    if (key < root.data) {
+        root.left = insertFunc (root.left, key);
+    } else if (key > root.data) {
+        root.right = insertFunc (root.right, key);
+    };
+
+    return root;
 };
