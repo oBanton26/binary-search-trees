@@ -27,6 +27,10 @@ export class Tree {
     insert (value) {
         return insertFunc(this.root, value);
     };
+
+    delete (value) {
+        return deleteFunc (this.root, value);
+    }
 };
 
 function sortedArrayToBSTRecur(arr, start, end) {
@@ -69,3 +73,37 @@ function insertFunc (root, key) {
 
     return root;
 };
+
+function deleteFunc (root, value){
+    if (root === null) {
+        return root;
+    }
+
+    // If key to be searched is in a subtree
+    if (root.data > value) {
+        root.left = deleteFunc(root.left, value);
+    } else if (root.data < value) {
+        root.right = deleteFunc(root.right, value);
+    } else {
+        // If root matches with the given key
+
+        // Cases when root has 0 children or 
+        // only right child
+        if (root.left === null) 
+            return root.right;
+
+        // When root has only left child
+        if (root.right === null) 
+            return root.left;
+
+        // When both children are present
+        
+        let succ = root.right;
+        while (succ && succ.left) {
+            succ = succ.left
+        }
+        root.data = succ.data;
+        root.right = deleteFunc(root.right, succ.data);
+    }
+    return root;
+}
