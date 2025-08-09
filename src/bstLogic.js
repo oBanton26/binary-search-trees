@@ -36,9 +36,15 @@ export class Tree {
         return findFunc(this.root, value);
     };
 
-    levelOrderForEach (callback) {
-        levelOrderForEachFunc(this.root, callback);
+    levelOrderForEachIt (callback) {
+        levelOrderForEachFuncIteration(this.root, callback);
     };
+
+    levelOrderForEachRec (callback) {
+        if (this.root == null) return;
+        const root = [this.root];
+        levelOrderForEachFuncRecurtion(root, callback);
+    }
 };
 
 function sortedArrayToBSTRecur(arr, start, end) {
@@ -130,7 +136,7 @@ function findFunc (root, value) {
     };
 };
 
-function levelOrderForEachFunc (root, callback) {
+function levelOrderForEachFuncIteration (root, callback) {
     // Special case check up
     if (typeof callback !== 'function') {
         throw new Error('The callback you gave is not a function');
@@ -150,4 +156,24 @@ function levelOrderForEachFunc (root, callback) {
         };
         q.shift();
     };
+};
+
+function levelOrderForEachFuncRecurtion (levelList, callback) {
+    if (typeof callback !== 'function') {
+        throw new Error('The callback you gave is not a function');
+    };
+    
+    if (!levelList.length) return;
+
+    let childList = [];
+    for (let node of levelList) {
+        callback(node);
+        if (node.left) {
+            childList.push(node.left)
+        };
+        if (node.right) {
+            childList.push(node.right)
+        };
+    };
+    levelOrderForEachFuncRecurtion (childList, callback);
 }
