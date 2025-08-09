@@ -29,7 +29,11 @@ export class Tree {
     };
 
     delete (value) {
-        return deleteFunc (this.root, value);
+        return deleteFunc(this.root, value);
+    };
+
+    find (value) {
+        return findFunc(this.root, value);
     }
 };
 
@@ -106,4 +110,18 @@ function deleteFunc (root, value){
         root.right = deleteFunc(root.right, succ.data);
     }
     return root;
+};
+
+function findFunc (root, value) {
+    if (root === null) {
+        return null;
+    };
+
+    if (root.data === value) {
+        return root;
+    } else if (root.data < value) {
+        return findFunc(root.right, value);
+    } else if (root.data > value) {
+        return findFunc(root.left, value);
+    };
 }
