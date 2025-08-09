@@ -5,5 +5,5 @@ const tree = new Tree (test);
 tree.insert(26);
 tree.delete(9);
 
-prettyPrint(tree.find(56));
 prettyPrint(tree.root);
+tree.levelOrderForEach(console.log);

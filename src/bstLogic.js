@@ -34,7 +34,11 @@ export class Tree {
 
     find (value) {
         return findFunc(this.root, value);
-    }
+    };
+
+    levelOrderForEach (callback) {
+        levelOrderForEachFunc(this.root, callback);
+    };
 };
 
 function sortedArrayToBSTRecur(arr, start, end) {
@@ -123,5 +127,27 @@ function findFunc (root, value) {
         return findFunc(root.right, value);
     } else if (root.data > value) {
         return findFunc(root.left, value);
+    };
+};
+
+function levelOrderForEachFunc (root, callback) {
+    // Special case check up
+    if (typeof callback !== 'function') {
+        throw new Error('The callback you gave is not a function');
+    };
+    if (root == null ) return;
+
+    let q = [];
+    q.push(root);
+    while (q.length) {
+        let pointer = q[0];
+        callback(pointer);
+        if (pointer.left) {
+            q.push(pointer.left);
+        };
+        if (pointer.right) {
+            q.push(pointer.right);
+        };
+        q.shift();
     };
 }
