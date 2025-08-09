@@ -44,6 +44,18 @@ export class Tree {
         if (this.root == null) return;
         const root = [this.root];
         levelOrderForEachFuncRecurtion(root, callback);
+    };
+
+    inOrderForEach (callback) {
+        inOrderForEachFunc(this.root, callback);
+    };
+
+    preOrderForEach (callback) {
+        preOrderForEachFunc(this.root, callback);
+    };
+
+    postOrderForEach (callback) {
+        postOrderForEachFunc(this.root, callback);
     }
 };
 
@@ -176,4 +188,40 @@ function levelOrderForEachFuncRecurtion (levelList, callback) {
         };
     };
     levelOrderForEachFuncRecurtion (childList, callback);
-}
+};
+
+function inOrderForEachFunc (root, callback) {
+    if (typeof callback !== 'function') {
+        throw new Error('The callback you gave is not a function');
+    };
+
+    if (root === null) return;
+
+    inOrderForEachFunc(root.left, callback);
+    callback(root);
+    inOrderForEachFunc(root.right, callback);
+};
+
+function preOrderForEachFunc (root, callback) {
+    if (typeof callback !== 'function') {
+        throw new Error('The callback you gave is not a function');
+    };
+
+    if (root === null) return;
+
+    callback(root);
+    preOrderForEachFunc(root.left, callback);
+    preOrderForEachFunc(root.right, callback);
+};
+
+function postOrderForEachFunc (root, callback) {
+    if (typeof callback !== 'function') {
+        throw new Error('The callback you gave is not a function');
+    };
+
+    if (root === null) return;
+
+    postOrderForEachFunc(root.left, callback);
+    postOrderForEachFunc(root.right, callback);
+    callback(root);
+};
