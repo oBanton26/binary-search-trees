@@ -56,6 +56,14 @@ export class Tree {
 
     postOrderForEach (callback) {
         postOrderForEachFunc(this.root, callback);
+    };
+
+    height (value) {
+        const node = this.find(value);
+        const initialList = [node];
+        let h = 0;
+        if (node === null) return null;
+        return heightFunc(initialList,h);
     }
 };
 
@@ -225,3 +233,18 @@ function postOrderForEachFunc (root, callback) {
     postOrderForEachFunc(root.right, callback);
     callback(root);
 };
+
+function heightFunc (levelList, h) {
+    if (!levelList.length) {
+        return h-1;
+    }
+
+    let childrenList = [];
+    for (let node of levelList) {
+        if (node.left) childrenList.push(node.left);
+        if (node.right) childrenList.push(node.right);
+    };
+
+    h++;
+    return heightFunc(childrenList, h);
+}
