@@ -64,6 +64,13 @@ export class Tree {
         let h = 0;
         if (node === null) return null;
         return heightFunc(initialList,h);
+    };
+
+    depth (value) {
+        if (!this.find(value)) return null;
+        const rootHeight = this.height(this.root.data);
+        const nodeHeight = this.height(value);
+        return rootHeight - nodeHeight;
     }
 };
 
@@ -247,4 +254,4 @@ function heightFunc (levelList, h) {
 
     h++;
     return heightFunc(childrenList, h);
-}
+};

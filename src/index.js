@@ -6,4 +6,4 @@ tree.insert(26);
 tree.delete(9);
 
 prettyPrint(tree.root);
-console.log(tree.height(23));
+console.log(tree.depth(67));
