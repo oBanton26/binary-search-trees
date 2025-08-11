@@ -101,6 +101,15 @@ export class Tree {
             };
         };
     };
+
+    reBalance () {
+        if (!this.isBalanced()) {
+            const newArray = this.inOrderForEach((node)=> node.data);
+            this.root = buildTree(newArray);
+        } else {
+            console.log('The tree is balanced');
+        }
+    }
 };
 
 function sortedArrayToBSTRecur(arr, start, end) {
