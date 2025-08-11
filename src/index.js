@@ -1,11 +1,13 @@
 import { Tree , prettyPrint } from './bstLogic.js';
 
-const test = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324, 56, 298];
-const tree = new Tree (test);
-tree.insert(26);
-tree.insert(24);
-tree.delete(9);
+function randomArray (length) {
+    const result = [];
+    for (let i=0; i<length; i++) {
+        result.push(Math.floor(Math.random()*100));
+    };
+    return result;
+}
 
-prettyPrint(tree.root);
-tree.reBalance();
+const test = randomArray(26);
+const tree = new Tree (test);
 prettyPrint(tree.root);
