@@ -47,7 +47,9 @@ export class Tree {
     };
 
     inOrderForEach (callback) {
-        inOrderForEachFunc(this.root, callback);
+        const results = [];
+        inOrderForEachFunc(this.root, callback, results);
+        return results;
     };
 
     preOrderForEach (callback) {
@@ -71,7 +73,34 @@ export class Tree {
         const rootHeight = this.height(this.root.data);
         const nodeHeight = this.height(value);
         return rootHeight - nodeHeight;
-    }
+    };
+
+    isBalanced () {
+        const self = this;
+        const results = this.inOrderForEach(isBalancedFunc);
+
+        // Return false if there is one false in the results array
+        return !results.some((elem)=>!elem);
+
+        function isBalancedFunc (node) {
+            if (self.height(node.data) <= 1) return true;
+
+            let leftH = -1;
+            let rightH = -1;
+            if (node.left) {
+                leftH = self.height(node.left.data);
+            };
+            if (node.right) {
+                rightH = self.height(node.right.data);
+            };
+
+            if (Math.abs(leftH - rightH)<2) {
+                return true;
+            } else {
+                return false;
+            };
+        };
+    };
 };
 
 function sortedArrayToBSTRecur(arr, start, end) {
@@ -205,16 +234,17 @@ function levelOrderForEachFuncRecurtion (levelList, callback) {
     levelOrderForEachFuncRecurtion (childList, callback);
 };
 
-function inOrderForEachFunc (root, callback) {
+function inOrderForEachFunc (root, callback, resultArray) {
     if (typeof callback !== 'function') {
         throw new Error('The callback you gave is not a function');
     };
 
+    
     if (root === null) return;
 
-    inOrderForEachFunc(root.left, callback);
-    callback(root);
-    inOrderForEachFunc(root.right, callback);
+    inOrderForEachFunc(root.left, callback, resultArray);
+    resultArray.push(callback(root));
+    inOrderForEachFunc(root.right, callback, resultArray);
 };
 
 function preOrderForEachFunc (root, callback) {
@@ -255,3 +285,4 @@ function heightFunc (levelList, h) {
     h++;
     return heightFunc(childrenList, h);
 };
+
